@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    	<title>Machine Learning Online</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Stylesheets -->
+        <link href="{{ url_for("static", filename="css/bootstrap.min.css") }}" rel="stylesheet">
+        <link href="{{ url_for("static", filename="css/site.css") }}" rel="stylesheet">
+
+        <!-- JavaScript -->
+        <script src="{{ url_for("static", filename="js/bootstrap.bundle.min.js") }}"></script>
+    </head>
+
+    <body>
+        <div class="modal" id="errorModal" tabindex="-1" aria-labelledby="step1ModalLabel" aria-hidden="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="step1ModalLabel">Error: not a CSV file</h5>
+                    </div>
+                    <div class="modal-body">
+                        The provided file was not a CSV file. Make sure to upload a .csv file. <hr>
+                        <a href="{{ url_for('index') }}" class="btn btn-danger">Return</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
