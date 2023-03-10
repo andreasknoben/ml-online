@@ -1,5 +1,6 @@
 import os
 from flask import Flask, render_template, redirect, url_for, request
+from funcs import data_statistics
 
 app = Flask(__name__)
 
@@ -7,7 +8,8 @@ app.config["MAX_CONTENT_LENGTH"] = 4196 * 4196
 app.config["UPLOAD_EXTENSIONS"] = [".csv"]
 app.config["UPLOAD_PATH"] = "uploads"
 
-data = dict()
+filename = None
+
 
 @app.route('/')
 def index():
@@ -26,12 +28,14 @@ def wrong_file():
 
 @app.route('/algorithm')
 def select_algorithm():
-    return render_template("select-algorithm.html", data = data["file_stats"])
+    stats = data_statistics(filename)
+    return render_template("select-algorithm.html", data = stats)
 
 
 @app.route('/', methods=["POST"])
 def upload_file():
     uploaded_file = request.files["file"]
+    global filename
     filename = uploaded_file.filename
     if uploaded_file.filename != "":
         file_ext = os.path.splitext(filename)[1]
@@ -39,7 +43,6 @@ def upload_file():
             return redirect(url_for("wrong_file"))
         else:
             uploaded_file.save(os.path.join(app.config["UPLOAD_PATH"], "dataset.csv"))
-            data["file_stats"] = [{'name': uploaded_file.filename}]
             return redirect(url_for("select_algorithm"))
     return redirect(url_for("index"))
 

@@ -44,12 +44,15 @@
             <div class="row">
                 <div class="col-8">
                     <h2>File</h2>
-                    You uploaded <i>file</i>. These are some file statistics.
+                    {% for item in data %}
+                    You uploaded <i>{{item.filename}}</i>. These are some file statistics.
                     <ul>
-                        {% for item in data %}
-                            <li>{{item.name}}</li>
-                        {% endfor %}
-                        </ul>
+                        
+                        <li>Number of variables: {{item.ncols}}</li>
+                        <li>Number of instances: {{item.nrows}}</li>
+                        
+                    </ul>
+                    {% endfor %}
                 </div>
             </div>
             <div class="row">
