@@ -23,6 +23,11 @@ def wrong_file():
     return render_template("wrongfile.html")
 
 
+@app.route('/algorithm')
+def select_algorithm():
+    return render_template("select-algorithm.html")
+
+
 @app.route('/', methods=["POST"])
 def upload_file():
     uploaded_file = request.files["file"]
