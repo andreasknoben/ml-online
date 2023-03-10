@@ -34,12 +34,22 @@
             </div>
         </nav>
 
+        <div class="header">
+            <h1>Machine Learning Online</h1>
+            <h2>Algorithm selection</h2>
+        </div>
+
 
         <div class="container">
             <div class="row">
                 <div class="col-8">
                     <h2>File</h2>
                     You uploaded <i>file</i>. These are some file statistics.
+                    <ul>
+                        {% for item in data %}
+                            <li>{{item.name}}</li>
+                        {% endfor %}
+                        </ul>
                 </div>
             </div>
             <div class="row">

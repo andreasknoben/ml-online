@@ -7,6 +7,7 @@ app.config["MAX_CONTENT_LENGTH"] = 4196 * 4196
 app.config["UPLOAD_EXTENSIONS"] = [".csv"]
 app.config["UPLOAD_PATH"] = "uploads"
 
+data = dict()
 
 @app.route('/')
 def index():
@@ -25,7 +26,7 @@ def wrong_file():
 
 @app.route('/algorithm')
 def select_algorithm():
-    return render_template("select-algorithm.html")
+    return render_template("select-algorithm.html", data = data["file_stats"])
 
 
 @app.route('/', methods=["POST"])
@@ -38,6 +39,7 @@ def upload_file():
             return redirect(url_for("wrong_file"))
         else:
             uploaded_file.save(os.path.join(app.config["UPLOAD_PATH"], "dataset.csv"))
+            data["file_stats"] = [{'name': uploaded_file.filename}]
             return redirect(url_for("select_algorithm"))
     return redirect(url_for("index"))
 
