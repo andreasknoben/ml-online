@@ -1,86 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-    	<title>Machine Learning Online</title>
-    	
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <!-- Stylesheets -->
-        <link href="{{ url_for("static", filename="css/bootstrap.min.css") }}" rel="stylesheet">
-        <link href="{{ url_for("static", filename="css/site.css") }}" rel="stylesheet">
-        
-        <!-- JavaScript -->
-        <script src="{{ url_for("static", filename="js/bootstrap.bundle.min.js") }}"></script>
-    </head>
-    
-    <body>
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">ML Online</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about.php">About</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+{% extends 'base.html' %}
 
-        <div class="header">
-            <h1>Machine Learning Online</h1>
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <h2>File</h2>
+            {% for item in data %}
+            You uploaded <i>{{item.filename}}</i>. These are some file statistics.
+            <ul>
+                
+                <li>Number of variables: {{item.ncols}}</li>
+                <li>Number of instances: {{item.nrows}}</li>
+                
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
             <h2>Algorithm selection</h2>
+            Please select an algorithm here.
+            
+            <form action="/algorithm" method="POST">
+                <select name="algorithm" class="form-select" aria-label="Select algorithm">
+                    <option selected>Select an algorithm</option>
+                    <option value="nn">K-Nearest Neighbours</option>
+                    <option value="logreg">Logistic Regression</option>
+                    <option value="svm">Support Vector Machine</option>
+                    <option value="nb">Naive Bayes Classifier</option>
+                    <option value="dt">Decision Tree</option>
+                    <option value="rf">Random Forest</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Run</button>
+            </form>
+            
         </div>
-
-
-        <div class="container">
-            <div class="row">
-                <div class="col-8">
-                    <h2>File</h2>
-                    {% for item in data %}
-                    You uploaded <i>{{item.filename}}</i>. These are some file statistics.
-                    <ul>
-                        
-                        <li>Number of variables: {{item.ncols}}</li>
-                        <li>Number of instances: {{item.nrows}}</li>
-                        
-                    </ul>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-8">
-                    <h2>Algorithm selection</h2>
-                    Please select an algorithm here.
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="step1Modal" tabindex="-1" aria-labelledby="step1ModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="step1ModalLabel">Upload dataset</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Please upload your dataset (csv file, max. 4 MB).
-                        <div class="mb-3">
-                            <form action="/" method="POST" enctype="multipart/form-data">
-                                <input type="file" accept=".csv, text/csv" class="form-control" name="file"><br>
-                                <button type="submit" class="btn btn-primary">Upload</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
+    </div>
+</div>
+{% endblock %}

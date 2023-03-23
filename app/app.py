@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, redirect, url_for, request
-from funcs import data_statistics
+from funcs import data_statistics, get_algorithm_parms
 
 app = Flask(__name__)
 
@@ -9,7 +9,7 @@ app.config["UPLOAD_EXTENSIONS"] = [".csv"]
 app.config["UPLOAD_PATH"] = "uploads"
 
 filename = None
-
+algorithm = None
 
 @app.route('/')
 def index():
@@ -29,7 +29,12 @@ def wrong_file():
 @app.route('/algorithm')
 def select_algorithm():
     stats = data_statistics(filename)
-    return render_template("select-algorithm.html", data = stats)
+    return render_template("select-algorithm.html", data=stats)
+
+@app.route('/run')
+def run_algorithm():
+    alg_parms = get_algorithm_parms(algorithm)
+    return render_template("run-algorithm.html", data=alg_parms)
 
 
 @app.route('/', methods=["POST"])
@@ -45,6 +50,13 @@ def upload_file():
             uploaded_file.save(os.path.join(app.config["UPLOAD_PATH"], "dataset.csv"))
             return redirect(url_for("select_algorithm"))
     return redirect(url_for("index"))
+
+
+@app.route('/algorithm', methods=["POST"])
+def select_algorithm_form():
+    global algorithm
+    algorithm = request.form.get('algorithm')
+    return redirect(url_for("run-algorithm"))
 
 
 if __name__ == "__main__":
