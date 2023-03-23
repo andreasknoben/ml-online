@@ -56,7 +56,7 @@ def upload_file():
 def select_algorithm_form():
     global algorithm
     algorithm = request.form.get('algorithm')
-    return redirect(url_for("run-algorithm"))
+    return redirect(url_for("run_algorithm"))
 
 
 if __name__ == "__main__":

@@ -1,5 +1,9 @@
 import pandas as pd
-import sklearn
+
+# Classifiers
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
+
 
 def data_statistics(filename):
     df = pd.read_csv('uploads/dataset.csv')
@@ -17,11 +21,13 @@ def get_algorithm_parms(alg):
     match alg:
         case 'nn':
             parms = [('n_neighbours', 'int')]
-            return {'function': sklearn.neighbors.KNeighborsClassifier,
+            return {'function': KNeighborsClassifier,
+                    'funcname': "K-Nearest Neighbours Classifier",
                     'parms': parms}
         case 'logreg':
             parms = [('penalty', ['l1', 'l2', 'none']),
                      ('C', 'float')]
-            return {'function': sklearn.linear_model.LogisticRegression,
+            return {'function': LogisticRegression,
+                    'funcname': "Logistic Regression",
                     'parms': parms}
     return alg
