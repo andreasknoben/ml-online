@@ -7,6 +7,7 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 
+from sklearn.model_selection import train_test_split
 
 def data_statistics(filename):
     df = pd.read_csv('uploads/dataset.csv')
@@ -57,3 +58,20 @@ def get_algorithm_parms(alg):
         
         case _:
             return ValueError()
+        
+def run_classifier(alg_parms):
+    data = pd.read_csv('uploads/dataset.csv')
+
+    train, test = train_test_split(data, test_size=0.2)
+    X_train = train.iloc[:, :-1]
+    y_train = train.iloc[:, -1]
+    X_test = test.iloc[:, :-1]
+    y_test = test.iloc[:, -1]
+
+    model = alg_parms['function']()
+    model.fit(X_train, y_train)
+    score = model.score(X_test, y_test)
+
+    results = {"test_accuracy": score}
+
+    return results
