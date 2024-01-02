@@ -59,16 +59,21 @@ def get_algorithm_parms(alg):
         case _:
             return ValueError()
         
-def run_classifier(alg_parms):
+def run_classifier(alg_parms,seed):
     data = pd.read_csv('uploads/dataset.csv')
 
-    train, test = train_test_split(data, test_size=0.2)
+    train, test = train_test_split(data, test_size=0.2, random_state=seed)
     X_train = train.iloc[:, :-1]
     y_train = train.iloc[:, -1]
     X_test = test.iloc[:, :-1]
     y_test = test.iloc[:, -1]
 
-    model = alg_parms['function']()
+    # check if model has random_state parameter
+    if 'random_state' in alg_parms['function']().get_params().keys():
+        model = alg_parms['function'](random_state = seed)
+    else:
+        model = alg_parms['function']()
+    print(seed)
     model.fit(X_train, y_train)
     score = model.score(X_test, y_test)
 
